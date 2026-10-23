@@ -17,6 +17,10 @@ credentials*
 # Session memory and tooling state, not project code
 .remember/
 
+# Backups of the operating manual and its queue: tracking artifacts, never committed
+orchestration/*.bak-*.md
+WORKING-NOTES.bak-*.md
+
 # Orchestration tracking artifacts: snapshot copies and review diffs. The reports and the
 # progress ledger in the same folder are kept.
 .superpowers/sdd/*/snap/
