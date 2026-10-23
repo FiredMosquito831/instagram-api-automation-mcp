@@ -96,7 +96,8 @@ function runSuite(binary) {
 const current = runSuite(process.execPath);
 check(`test suite on ${current.version}`, current.ok ? 'pass' : 'fail', current.summary);
 
-// 5. The full suite on the second Node version, when one is configured.
+// 5. The full suite on each other Node version listed in .ci-local.json ("nodes": [paths]).
+// "nodeAlt" (a single path) is still read, for older configs.
 const configPath = join(root, '.ci-local.json');
 let config = {};
 let configOk = true;
@@ -109,12 +110,19 @@ if (existsSync(configPath)) {
   }
 }
 if (configOk && existsSync(configPath)) check('local CI config (.ci-local.json) is valid JSON', 'pass', 'parsed');
-let second = null;
-if (config.nodeAlt && existsSync(config.nodeAlt)) {
-  second = runSuite(config.nodeAlt);
-  check(`test suite on ${second.version}`, second.ok ? 'pass' : 'fail', second.summary, strict);
-} else {
-  check('test suite on the second Node', 'not run', 'nodeAlt is not set in .ci-local.json', strict);
+const extraNodes = [...(Array.isArray(config.nodes) ? config.nodes : []), ...(config.nodeAlt ? [config.nodeAlt] : [])];
+const seconds = [];
+if (extraNodes.length === 0) {
+  check('test suite on the other configured Node versions', 'not run', 'nodes is not set in .ci-local.json', strict);
+}
+for (const binary of extraNodes) {
+  if (!existsSync(binary)) {
+    check(`test suite on ${binary}`, 'fail', 'the configured Node binary does not exist', strict);
+    continue;
+  }
+  const run = runSuite(binary);
+  seconds.push(run);
+  check(`test suite on ${run.version}`, run.ok ? 'pass' : 'fail', run.summary, strict);
 }
 
 // 6. The Python sidecar check, when Python is on PATH.
@@ -179,8 +187,9 @@ if (record) {
     writeFileSync(file, '# Local CI history\n\nOne line per recorded run. Written by `npm run ci -- --record` (or `--release`).\n\n', 'utf8');
   }
   const stamp = new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+  const others = seconds.map((run) => ` · ${run.version}: ${run.summary}`).join('');
   const line = `- ${stamp} · ${pkg.version} · ${sha} · ${overall} · ${current.version}: ${current.summary}` +
-    (second ? ` · ${second.version}: ${second.summary}` : ' · second Node not run');
+    (others || ' · no other Node configured');
   appendFileSync(file, line + '\n', 'utf8');
   console.log(`\nRecorded in orchestration/ci/history.md`);
 }

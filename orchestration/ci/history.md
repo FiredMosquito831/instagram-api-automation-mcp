@@ -3,3 +3,4 @@
 One line per recorded run. Written by `npm run ci -- --record` (or `--release`).
 
 - 2026-10-23 09:21 UTC · 0.1.0 · 9c903e9 · PASS · v24.6.0: 1217/1217 pass, 0 fail, 0 cancelled, 0 skipped, exit 0 in 7.8s · v22.13.1: 1217/1217 pass, 0 fail, 0 cancelled, 0 skipped, exit 0 in 8.8s
+- 2026-10-23 09:41 UTC · 0.1.0 · 98cd825 · FAIL · v24.6.0: 1217/1217 pass, 0 fail, 0 cancelled, 0 skipped, exit 0 in 7.5s · v22.12.0: 1217/1217 pass, 0 fail, 0 cancelled, 0 skipped, exit 0 in 7.8s · v22.13.1: 1217/1217 pass, 0 fail, 0 cancelled, 0 skipped, exit 0 in 8.5s
