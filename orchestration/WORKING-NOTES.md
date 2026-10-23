@@ -124,6 +124,7 @@ gh release list --limit 3                                     # Latest marks the
 git -C D:\Projects2\InstagramApi status --short                # empty
 npm test                                                       # on Node 24.6.0 (see III.1 for Node 22.13.1)
 ```
+- The tag must be an ancestor of `origin/main`, and the product code (`src`, `bin`, `package.json`, `sidecar`, `scripts`) must be unchanged between the tag and `origin/main`. A docs-only commit after a tag is allowed (decided 2026-10-23, when the manual landed after v0.1.0). Check it with `git diff --stat vX.Y.Z origin/main -- src bin package.json sidecar scripts` (empty) and `git merge-base --is-ancestor vX.Y.Z origin/main`.
 - Then: append the release-history row (Part VIII), the dated line in the diary (`WORKING-NOTES-ARCHIVE.md`), flip the queue row (`QUEUE.md`), and tell the owner what shipped, what was verified, the deviations, and what was not done.
 
 ## II.6 Hard rules for every brief (agents and the orchestrator)
