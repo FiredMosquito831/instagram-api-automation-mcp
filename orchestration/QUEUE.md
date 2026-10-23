@@ -16,7 +16,7 @@ _(no release running; the last release is 0.1.0, finished 2026-10-23)_
 
 | # | Item | Version / note | Spec + user decisions | What it does and why |
 |---|---|---|---|---|
-| 1 | **Continuous integration** — a GitHub Actions workflow that runs `npm test` on Node 22.12.0 and Node 24.6.0 on every push to `main` and every tag | PATCH 0.1.1 (a workflow adds no product behaviour) · tier T0 · NEEDS GO | none yet; this row is the proposal | The manual says the local run is not the gate and CI is. No CI exists. The workflow closes two gaps at once: the exact Node 22.12.0 run (the engine minimum, not yet done here), and a gate that runs without the owner's machine. **Needs the owner's go**, because it runs on the owner's GitHub account and uses its Actions minutes. |
+| 1 | ~~**Continuous integration** (a GitHub Actions workflow)~~ — **replaced by local CI** (`npm run ci`, decided 2026-10-23) | no release needed | the owner's reply, 2026-10-23: "we can do the CI local" | No hosted CI will be used. The gate is `npm run ci`, which records each run in `orchestration/ci/history.md`. The exact Node 22.12.0 run stays on HELD (below). |
 
 ---
 
