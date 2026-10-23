@@ -1,6 +1,6 @@
 # C-1 — proposed wording for global-constraints.md (for the owner's decision)
 
-**Status: PROPOSED.** The file `.superpowers/sdd/2026-10-20-instagram-automation-build/global-constraints.md` is the owner's rule file. It is not changed until the owner chooses. Nothing here is applied.
+**Status: APPLIED (option A, 2026-10-23).** The file `.superpowers/sdd/2026-10-20-instagram-automation-build/global-constraints.md` is the owner's rule file. It was changed on 2026-10-23, with option A, as the owner approved ("i approve all").
 
 ## Why this is open
 The build differs from the constraint file in three places. Each difference is a decision the owner made or a reading the build chose, and the file should say which.

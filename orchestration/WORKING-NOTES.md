@@ -72,6 +72,7 @@ The orchestrator's manual: how the owner works, what they verify and reject, rep
 ## I.7 The owner's standing decisions (do not re-ask)
 - **2026-10-22, the 13 open decisions (O-1 to O-13):** delegated to the orchestrator. Each was decided toward the most complete option that still fails closed, and each is recorded with its cost in `.superpowers/sdd/2026-10-20-instagram-automation-build/final-decisions-report.md`. The owner can reverse any of them.
 - **2026-10-23, repository and release setup:** a git repository and a GitHub repository, `instagram-api-automation-mcp` (public since 2026-10-23). Track everything except credentials and tracking artifacts (snapshot copies, review diffs, session memory). Keep all current work and progress. Releases use semantic version bumps.
+- **2026-10-23, the owner's approvals:** the rename to `instagram-api-automation-mcp` (0.1.1); the constraint wording, option A; the live-phase plan in principle ("i approve all"). The live phase still needs a test account (private), a write-by-write consent, and the restriction-risk acceptance for phase 11.
 - **2026-10-23, no frozen boundary:** every module must work. The test suite is the contract.
 - **2026-10-23, the gate (local CI):** `npm run ci`, run on this machine. It runs the full suite on Node 24.6.0, 22.12.0 and 22.13.1, plus the checks in III.1. No hosted CI is used. No lint or type check is configured.
 - **2026-10-23, how the owner works on this project:** decide every open decision yourself and aim for the most complete, resilient version, failing closed; keep all work and progress tracked, except credentials and tracking artifacts (snapshot copies, review diffs, session memory); every module must work; report what is CONFIRMED, UNVERIFIED and NOT DONE; no live Instagram call without consent and a stated budget.
@@ -259,6 +260,7 @@ Read-only: no writes to the project, no git writes, no suite re-run unless a spe
 
 | Version | Date | Commit | What |
 | --- | --- | --- | --- |
+| 0.1.1 | 2026-10-23 | `8abc8b2` (annotated tag `v0.1.1`, GitHub release Latest) | The package renamed to `instagram-api-automation-mcp`; the keyring and MCP names kept on purpose; the constraint wording option A applied; the gate on three Node versions, 1217/1217 each. |
 | 0.1.0 | 2026-10-23 | `5b2d517` (tag `v0.1.0`, GitHub release Latest) | First release: the build as a whole. 1217 tests passing on Node 24.6.0, 22.12.0 and 22.13.1 (the exact 22.12.0 run was added 2026-10-23). The repository, the tag and the release were created and verified. No live Instagram call has been made. Scope and limits: CHANGELOG.md and the README. |
 
 ---
@@ -303,24 +305,27 @@ One bullet per lesson, with the evidence that makes it memorable and its origin.
 # PART X — STILL OPEN
 
 ## Priority now
-The repository is public, the 0.1.0 release is verified, the local CI gate passes on three Node versions, and the exact Node 22.12.0 run is done. The next steps are the owner's: the live phase, the decisions below, and the package rename (QUEUE.md).
+The repository is public. Release 0.1.1 (the package rename) is verified and Latest. The local CI gate passes on three Node versions, and the constraint wording is applied. The next steps are the owner's: the live phase (the test account and the restriction-risk acceptance for phase 11), and the owner's review of the reversible decisions.
 
 ## Queued
-See `QUEUE.md`.
+Nothing is queued. See `QUEUE.md`.
 
 ## Awaiting the owner
-- **The package name.** `package.json` says `instagram-automation`; the repository says `instagram-api-automation-mcp`. Proposed: rename the package to match (a PATCH release, 0.1.1). Recorded in QUEUE.md.
-- **The live-phase plan** is in `orchestration/LIVE-PHASE.md`, waiting for the owner's account, consent and budget.
-- **C-1, `global-constraints.md` is out of step with the build.** Line 14 lacks the cursor-reset exception (decision in Part I.7 item 3). Line 6 lacks the lookup buckets and the auto-reply scope (per sender in the code, per conversation in the constraint). The constraint file is outside the repository (`.superpowers/sdd/.../global-constraints.md`, tracked with the build record); the owner decides the wording.
-- **The O-decisions that the owner may want to reverse** (the list in `final-decisions-report.md`), especially: the account-wide stop on an expired unofficial session; the one-reply flag and its clear command; image stories behind the flag.
+- **The live-phase test account**, given privately and never in chat or in a commit, and the restriction-risk acceptance for phase 11 (the unofficial sidecar). The plan is `orchestration/LIVE-PHASE.md`; its sign-off records the approval given on 2026-10-23.
+- **The O-decisions the owner may want to reverse** (the list in `final-decisions-report.md`), especially: the account-wide stop on an expired unofficial session; the one-reply flag and its clear command; image stories behind the flag.
 - **The MCP SDK reading** (SDK v2 negotiates 2026-07-28 through `server/discover`; `initialize` negotiates 2025-11-25).
 - **instagrapi 3.1.0**, two days old at pinning. Confirm it, or choose 3.0.26.
 
 ## Held
-- **Live phase.** Needs the owner's second test account, the owner's consent and a stated budget. Its checks are the README's "Live-phase checks". Nothing live runs until the owner says go.
-- **Node 22.12.0 exactly:** done 2026-10-23 (1217/1217, exit 0).
+- **Live phase:** approved in principle on 2026-10-23. Waits for the test account and the phase 11 acceptance. Nothing live runs until then.
+- **Version 1.0.0:** after the live-phase checks are verified.
+
+## Resolved on 2026-10-23
+- The package rename (0.1.1). The keyring service name and the MCP server name are kept on purpose.
+- The constraint-file wording (option A, `decisions/C-1-global-constraints.md`).
+- The exact Node 22.12.0 run (1217/1217).
 
 ## The owner's own to-dos (remind, never nag)
 - Decide the items under "Awaiting the owner".
-- Provide the live test account when ready.
+- Provide the live test account when ready, privately.
 - Register the Facebook redirect URI and the app's `response_type` for the live Facebook check, when that phase starts.

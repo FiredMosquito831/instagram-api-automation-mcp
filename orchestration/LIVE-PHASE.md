@@ -50,7 +50,7 @@ Purpose: confirm, against a real test account, the items the build could only ch
 - The owner's real account. That needs its own plan and its own consent.
 
 ## 5. Sign-off
-- The owner's go: ____ (date)
-- The test account (type, handle to be given privately, never committed): ____
-- The call budget approved: ____ calls
-- Phases approved: 0 1 2 3 4 5 6 7 8 9 10 11 (strike the ones not approved)
+- The owner's go: approved in principle, 2026-10-23 ("i approve all"). Each write still needs its own consent at the time.
+- The test account (type, handle to be given privately, never committed): not yet given.
+- The call budget approved: about 20 read calls, 2026-10-23, plus each consented write.
+- Phases approved: all, 2026-10-23, with two conditions: each write (phases 8, 9 and 11) needs its own consent at the time, and phase 11 needs an explicit restriction-risk acceptance, which is not yet given.
