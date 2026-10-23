@@ -32,7 +32,7 @@ The orchestrator's manual: how the owner works, what they verify and reject, rep
 # PART I — HOW THE OWNER WANTS TO WORK
 
 ## I.1 Ownership and what "done" means
-- The owner's repo, the owner's merge: `FiredMosquito831/instagram-api-automation-mcp` (private, created 2026-10-23). Remote `origin`, default branch `main`. There is no upstream; no pushes or pull requests anywhere else.
+- The owner's repo, the owner's merge: `FiredMosquito831/instagram-api-automation-mcp` (public since 2026-10-23, on the owner's go; created private the same day). Remote `origin`, default branch `main`. There is no upstream; no pushes or pull requests anywhere else.
 - **Pushed is not released.** Released = committed, pushed to `main`, tagged `vX.Y.Z` on the same commit, and a GitHub release published as Latest with its notes. The package is private and is not published to npm.
 - Finish end to end. "Done" means the owner can see it working. State the exit criterion in their terms up front, test to it, lead with the negative when it is negative.
 - Good behaviour by default: the product does the work; the owner never runs a "do this once" step.
@@ -71,9 +71,11 @@ The orchestrator's manual: how the owner works, what they verify and reject, rep
 
 ## I.7 The owner's standing decisions (do not re-ask)
 - **2026-10-22, the 13 open decisions (O-1 to O-13):** delegated to the orchestrator. Each was decided toward the most complete option that still fails closed, and each is recorded with its cost in `.superpowers/sdd/2026-10-20-instagram-automation-build/final-decisions-report.md`. The owner can reverse any of them.
-- **2026-10-23, repository and release setup:** a git repository and a private GitHub repository, `instagram-api-automation-mcp`. Track everything except credentials and tracking artifacts (snapshot copies, review diffs, session memory). Keep all current work and progress. Releases use semantic version bumps.
+- **2026-10-23, repository and release setup:** a git repository and a GitHub repository, `instagram-api-automation-mcp` (public since 2026-10-23). Track everything except credentials and tracking artifacts (snapshot copies, review diffs, session memory). Keep all current work and progress. Releases use semantic version bumps.
 - **2026-10-23, no frozen boundary:** every module must work. The test suite is the contract.
-- **2026-10-23, the gate:** `npm test` on Node 24.6.0 and on Node 22.13.1, with no lint or type check, since none is configured.
+- **2026-10-23, the gate (local CI):** `npm run ci`, run on this machine. It runs the full suite on Node 24.6.0, 22.12.0 and 22.13.1, plus the checks in III.1. No hosted CI is used. No lint or type check is configured.
+- **2026-10-23, how the owner works on this project:** decide every open decision yourself and aim for the most complete, resilient version, failing closed; keep all work and progress tracked, except credentials and tracking artifacts (snapshot copies, review diffs, session memory); every module must work; report what is CONFIRMED, UNVERIFIED and NOT DONE; no live Instagram call without consent and a stated budget.
+- **2026-10-23, the repository's visibility:** public, on the owner's go. The full git history was checked for real secrets first (none; only fixtures). The Windows account name in machine paths was replaced with `%USERPROFILE%` in the tracked files; older commits keep it.
 - **Live system:** no live Instagram call without the owner's consent and a stated budget. A rate-limit answer is inconclusive.
 - **Credentials:** the OS keyring holds real secrets. Never read keyring entries or `IG_*` values. Never create a `.env`.
 
@@ -97,7 +99,7 @@ The orchestrator's manual: how the owner works, what they verify and reject, rep
 - The CHANGELOG (`CHANGELOG.md`) is the release-notes record. Each release gets a section.
 
 ## II.3 Release process
-1. Make the change and run the gate (III.1) until it is green on both Node versions.
+1. Make the change and run `npm run ci -- --release` (III.1) until it passes on every configured Node version. This also appends the run to `orchestration/ci/history.md`.
 2. Bump `package.json` `version` and add the CHANGELOG section for the new version, in the same commit as the change.
 3. Commit with the attribution line (II.4). Push `main`: `git push origin main`.
 4. Tag the same commit as an annotated tag: `git tag -a vX.Y.Z -m "Release X.Y.Z: <headline>"`, then `git push origin vX.Y.Z`.
@@ -122,7 +124,7 @@ git -C D:\Projects2\InstagramApi ls-remote --tags origin vX.Y.Z  # must show the
 gh release view vX.Y.Z --json tagName,isDraft,isPrerelease,url,targetCommitish
 gh release list --limit 3                                     # Latest marks the new release
 git -C D:\Projects2\InstagramApi status --short                # empty
-npm test                                                       # on Node 24.6.0 (see III.1 for Node 22.13.1)
+npm run ci -- --release                                        # the gate: every configured Node version, clean tree, CHANGELOG section
 ```
 - The tag must be an ancestor of `origin/main`, and the product code (`src`, `bin`, `package.json`, `sidecar`, `scripts`) must be unchanged between the tag and `origin/main`. A docs-only commit after a tag is allowed (decided 2026-10-23, when the manual landed after v0.1.0). Check it with `git diff --stat vX.Y.Z origin/main -- src bin package.json sidecar scripts` (empty) and `git merge-base --is-ancestor vX.Y.Z origin/main`.
 - Then: append the release-history row (Part VIII), the dated line in the diary (`WORKING-NOTES-ARCHIVE.md`), flip the queue row (`QUEUE.md`), and tell the owner what shipped, what was verified, the deviations, and what was not done.
@@ -142,9 +144,9 @@ npm test                                                       # on Node 24.6.0 
 # PART III — THE GATE, TESTING, CODE RULES
 
 ## III.1 The gate
-- Local: `npm test` (script: `node --test test/*.test.js`). Run on Node 24.6.0 and on Node 22.13.1. The engine minimum is `>=22.12.0`; the exact 22.12.0 run is not yet done (Part X).
-- Node 22.13.1 is the Playwright-bundled runtime at `%USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe`. Use it by full path for the second run. Do not change the machine's PATH.
-- **The gate is local CI:** `npm run ci` (`scripts/ci-local.mjs`), decided by the owner on 2026-10-23. It runs the Node floor, the clean-tree and CHANGELOG checks, the full suite on Node 24.6.0 and on Node 22.13.1 (path in the untracked `.ci-local.json`), the Python sidecar check, and a token-shape scan of the shipped files. `npm run ci -- --release` is the strict form (clean tree, CHANGELOG section, both Nodes) and appends a line to `orchestration/ci/history.md`. No hosted CI is used.
+- Gate: `npm run ci` (local CI, `scripts/ci-local.mjs`). It runs the suite on Node 24.6.0, on 22.12.0 (the engine minimum, exact: 1217/1217 on 2026-10-23) and on 22.13.1, using the paths in the untracked `.ci-local.json`. The raw suite is `npm test` (script: `node --test test/*.test.js`).
+- Node 22.13.1 is the Playwright-bundled runtime at `%USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe`. Use it by full path for the second run. Node 22.12.0 is a verified official build (SHA-256 checked against nodejs.org) at `D:\tools\node\node-v22.12.0-win-x64\node.exe`. Do not change the machine's PATH.
+- **The gate is local CI:** `npm run ci` (`scripts/ci-local.mjs`), decided by the owner on 2026-10-23. It runs the Node floor, the clean-tree and CHANGELOG checks, the full suite on every Node listed in the untracked `.ci-local.json` (22.12.0 and 22.13.1) and on the Node that runs it (24.6.0), the Python sidecar check, and a token-shape scan of the shipped files. `npm run ci -- --release` is the strict form (clean tree, CHANGELOG section, both Nodes) and appends a line to `orchestration/ci/history.md`. No hosted CI is used.
 - No lint or type check is configured.
 - Baseline: 1217 tests, all passing on both versions, with no skipped or cancelled tests. The Python sidecar checks run when Python is on PATH and skip with a reason otherwise.
 - Never two full test gates at once on the machine.
@@ -243,9 +245,9 @@ Read-only: no writes to the project, no git writes, no suite re-run unless a spe
 # PART VII — ENVIRONMENT
 
 - **Machine:** Windows 11 Pro. Git Bash and PowerShell 7 are available. Timezone Europe/Bucharest.
-- **Tools:** git 2.46.0; Node 24.6.0 (the default); Node 22.13.1 at the Playwright path above; npm 11.x; Python 3.13.7; `gh` CLI signed in as `FiredMosquito831` (keyring).
+- **Tools:** git 2.46.0; Node 24.6.0 (the default); Node 22.12.0 at `D:\tools\node\node-v22.12.0-win-x64\node.exe`; Node 22.13.1 at the Playwright path above; npm 11.x; Python 3.13.7; `gh` CLI signed in as `FiredMosquito831` (keyring).
 - **Git identity:** `FiredMosquito831`, set globally.
-- **Repository:** `D:\Projects2\InstagramApi`. Remote `https://github.com/FiredMosquito831/instagram-api-automation-mcp` (private).
+- **Repository:** `D:\Projects2\InstagramApi`. Remote `https://github.com/FiredMosquito831/instagram-api-automation-mcp` (public, since 2026-10-23).
 - **Live system:** none. The owner's second test account is pending. Nothing is connected or running.
 - **Runtime data:** the service writes `data/` (state, events, audit) and `media/` (the owner's publishing folder). Both are created at runtime, and both are git-ignored. Never read them outside tests.
 - **Ports:** the HTTP API on `127.0.0.1:8788` by default; the OAuth redirect on `127.0.0.1:8790`. Check reserved ranges before a live run.
@@ -257,7 +259,7 @@ Read-only: no writes to the project, no git writes, no suite re-run unless a spe
 
 | Version | Date | Commit | What |
 | --- | --- | --- | --- |
-| 0.1.0 | 2026-10-23 | `5b2d517` (tag `v0.1.0`, GitHub release Latest) | First release: the build as a whole. 1217 tests passing on Node 24.6.0 and Node 22.13.1. The repository, the tag and the release were created and verified. No live Instagram call has been made. Scope and limits: CHANGELOG.md and the README. |
+| 0.1.0 | 2026-10-23 | `5b2d517` (tag `v0.1.0`, GitHub release Latest) | First release: the build as a whole. 1217 tests passing on Node 24.6.0, 22.12.0 and 22.13.1 (the exact 22.12.0 run was added 2026-10-23). The repository, the tag and the release were created and verified. No live Instagram call has been made. Scope and limits: CHANGELOG.md and the README. |
 
 ---
 
@@ -282,6 +284,11 @@ One bullet per lesson, with the evidence that makes it memorable and its origin.
 - Git on Windows converts line endings unless `.gitattributes` fixes them. Without it, the index fills with CRLF warnings. (2026-10-23, the first commit.)
 - `node --test` output in TAP does not match the `ℹ` summary lines. Read the `# pass` lines instead. (2026-10-23, the Node 22 run.)
 - `npm test > file` then `grep` is the reliable way to read counts; a pipe can hide the exit code. (Standing practice.)
+- `printf` writes single backslashes, so a JSON file written that way fails to parse. Write JSON with the Write tool. (2026-10-23, the `.ci-local.json` file.)
+- A gate that crashes on a bad config reports nothing. Every failure must become a named check. (2026-10-23, fixed in `scripts/ci-local.mjs`.)
+- `gh repo edit` takes the owner/repo form; a bare repository name is rejected. (2026-10-23, making the repository public.)
+- Scrubbing a name from tracked files does not change git history. Check the history separately and say so. (2026-10-23.)
+- `--release` records every attempt, including a failed one, so a dirty tree shows as a failure in the history, not as a missing run. (2026-10-23.)
 
 ## IX.4 Subsystems
 - **Node 22 and timers:** `AbortSignal.timeout` does not keep Node alive while a test awaits it. A test that waits on it is cancelled on Node 22. Hold a referenced timer during the wait. (Build, 2026-10-22: 11 cancelled MCP tests on Node 22.13.1.)
@@ -296,12 +303,14 @@ One bullet per lesson, with the evidence that makes it memorable and its origin.
 # PART X — STILL OPEN
 
 ## Priority now
-The repository and the 0.1.0 release are done and verified. The next steps are the owner's: the live phase, and the decisions below.
+The repository is public, the 0.1.0 release is verified, the local CI gate passes on three Node versions, and the exact Node 22.12.0 run is done. The next steps are the owner's: the live phase, the decisions below, and the package rename (QUEUE.md).
 
 ## Queued
 See `QUEUE.md`.
 
 ## Awaiting the owner
+- **The package name.** `package.json` says `instagram-automation`; the repository says `instagram-api-automation-mcp`. Proposed: rename the package to match (a PATCH release, 0.1.1). Recorded in QUEUE.md.
+- **The live-phase plan** is in `orchestration/LIVE-PHASE.md`, waiting for the owner's account, consent and budget.
 - **C-1, `global-constraints.md` is out of step with the build.** Line 14 lacks the cursor-reset exception (decision in Part I.7 item 3). Line 6 lacks the lookup buckets and the auto-reply scope (per sender in the code, per conversation in the constraint). The constraint file is outside the repository (`.superpowers/sdd/.../global-constraints.md`, tracked with the build record); the owner decides the wording.
 - **The O-decisions that the owner may want to reverse** (the list in `final-decisions-report.md`), especially: the account-wide stop on an expired unofficial session; the one-reply flag and its clear command; image stories behind the flag.
 - **The MCP SDK reading** (SDK v2 negotiates 2026-07-28 through `server/discover`; `initialize` negotiates 2025-11-25).
@@ -309,7 +318,7 @@ See `QUEUE.md`.
 
 ## Held
 - **Live phase.** Needs the owner's second test account, the owner's consent and a stated budget. Its checks are the README's "Live-phase checks". Nothing live runs until the owner says go.
-- **Node 22.12.0 exactly.** The suite is run on 22.13.1; the engine minimum is 22.12.0. Held until a 22.12.0 binary is available.
+- **Node 22.12.0 exactly:** done 2026-10-23 (1217/1217, exit 0).
 
 ## The owner's own to-dos (remind, never nag)
 - Decide the items under "Awaiting the owner".
