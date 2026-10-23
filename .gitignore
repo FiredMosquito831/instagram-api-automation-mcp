@@ -1,0 +1,34 @@
+# Dependencies (restored with npm ci from package-lock.json)
+node_modules/
+
+# Runtime data written by the service: state, events, audit, media, keys. Never committed.
+data/
+media/
+*.stackdump
+*.log
+
+# Credentials and secrets. The OS keyring holds the real values; these patterns are a backstop.
+.env
+.env.*
+*.pem
+*.key
+credentials*
+
+# Session memory and tooling state, not project code
+.remember/
+
+# Orchestration tracking artifacts: snapshot copies and review diffs. The reports and the
+# progress ledger in the same folder are kept.
+.superpowers/sdd/*/snap/
+*.diff
+
+# Python sidecar build output
+__pycache__/
+*.pyc
+.venv/
+
+# OS and editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

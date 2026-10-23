@@ -1,0 +1,2 @@
+# instagrapi 3.1.0 (MIT). Install wheels only: pip install --only-binary=:all: -r sidecar/requirements.txt
+instagrapi==3.1.0
