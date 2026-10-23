@@ -2,6 +2,14 @@
 
 All notable changes to this project are recorded here. The project follows [Semantic Versioning](https://semver.org/). Each release is a version bump in `package.json`, a matching tag `vX.Y.Z`, and a GitHub release.
 
+## 0.1.1
+
+Packaging and gate. No change to the service's behaviour.
+
+- The package is renamed from `instagram-automation` to `instagram-api-automation-mcp`, to match the repository. Nothing is published to npm.
+- The stored-credential service name (`instagram-automation`, used by the keyring) and the MCP server's advertised name stay as they were. Changing either would orphan stored credentials or break client configurations.
+- The local CI gate is `npm run ci` (`scripts/ci-local.mjs`). It runs the suite on Node 24.6.0, 22.12.0 (the engine minimum, verified exactly: 1217/1217) and 22.13.1, plus the sidecar check and a token-shape scan. `npm run ci -- --release` is the strict form.
+
 ## 0.1.0
 
 First release. The package is private (`"private": true`) and is not published to npm.

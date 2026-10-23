@@ -1,6 +1,6 @@
 {
-  "name": "instagram-automation",
-  "version": "0.1.0",
+  "name": "instagram-api-automation-mcp",
+  "version": "0.1.1",
   "private": true,
   "description": "Owner-only Instagram automation service: HTTP API, MCP server and setup CLI",
   "type": "module",
