@@ -36,3 +36,6 @@ Thumbs.db
 .DS_Store
 .vscode/
 .idea/
+
+# Local CI settings for this machine (the path to the second Node binary). Never committed.
+.ci-local.json
