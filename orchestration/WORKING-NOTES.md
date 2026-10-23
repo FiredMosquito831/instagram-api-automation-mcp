@@ -143,7 +143,7 @@ npm test                                                       # on Node 24.6.0 
 
 ## III.1 The gate
 - Local: `npm test` (script: `node --test test/*.test.js`). Run on Node 24.6.0 and on Node 22.13.1. The engine minimum is `>=22.12.0`; the exact 22.12.0 run is not yet done (Part X).
-- Node 22.13.1 is the Playwright-bundled runtime at `C:\Users\fgghk\AppData\Local\ms-playwright-go\1.50.1\node.exe`. Use it by full path for the second run. Do not change the machine's PATH.
+- Node 22.13.1 is the Playwright-bundled runtime at `%USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe`. Use it by full path for the second run. Do not change the machine's PATH.
 - No lint, type check or CI is configured. The owner chose the local suite as the gate (2026-10-23). A GitHub Actions workflow is queued for the owner's go (QUEUE.md).
 - Baseline: 1217 tests, all passing on both versions, with no skipped or cancelled tests. The Python sidecar checks run when Python is on PATH and skip with a reason otherwise.
 - Never two full test gates at once on the machine.

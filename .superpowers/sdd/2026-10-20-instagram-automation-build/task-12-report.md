@@ -591,7 +591,7 @@ $ npm test
 exit: 0
 ```
 
-Node 22.13.1 (the standalone binary at `C:\Users\fgghk\AppData\Local\ms-playwright-go\1.50.1\node.exe` put first on PATH, as in `task-18-report.md`; `node --version` printed `v22.13.1`). Node 22 writes TAP to a non-terminal, so the summary is in TAP form:
+Node 22.13.1 (the standalone binary at `%USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe` put first on PATH, as in `task-18-report.md`; `node --version` printed `v22.13.1`). Node 22 writes TAP to a non-terminal, so the summary is in TAP form:
 ```
 $ npm test
 # tests 1193
@@ -658,7 +658,7 @@ No Python was started. The missing executable is `ig-no-such-python-for-test`, w
 
 Counts (`npm test`, run on each Node version after the changes above):
 - Node 24.6.0 (`node --version` printed `v24.6.0`): `ℹ tests 1199`, `ℹ pass 1199`, `ℹ fail 0`, `ℹ cancelled 0`, `ℹ skipped 0`, exit 0.
-- Node 22.13.1 (the standalone binary at `C:\Users\fgghk\AppData\Local\ms-playwright-go\1.50.1\node.exe` first on PATH; `node --version` printed `v22.13.1`): TAP summary `# tests 1199`, `# pass 1199`, `# fail 0`, `# cancelled 0`, `# skipped 0`, exit 0.
+- Node 22.13.1 (the standalone binary at `%USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe` first on PATH; `node --version` printed `v22.13.1`): TAP summary `# tests 1199`, `# pass 1199`, `# fail 0`, `# cancelled 0`, `# skipped 0`, exit 0.
 
 The count went from 1193 (end of the first part of this round) to 1199: 2 new tests in `test/sidecar.test.js` and 4 in `test/unofficial-session.test.js`. In this second round, I changed one existing test (`test/sidecar.test.js:124`) and added no others to other files. Another change to `test/sidecar.test.js` landed on disk during this round, and I did not change or review it.
 

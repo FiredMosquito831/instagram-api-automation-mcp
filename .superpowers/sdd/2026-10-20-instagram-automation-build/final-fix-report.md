@@ -12,7 +12,7 @@ Scope: the 34 FIX items of final-review.md, the README mismatches R-1 to R-14, t
 | Final, Node 22 | `npm test`, with the Node 22.13.1 binary first on PATH (the method in task-18-report.md) | v22.13.1 | 764 | 764 | 0 | 0 | 0 |
 
 - Before the round the suite had 730 tests (730 of 730 on Node 24). The round added 34.
-- The Node 22 run used `PATH="/c/Users/fgghk/AppData/Local/ms-playwright-go/1.50.1:$PATH"`. `node --version` under that PATH printed v22.13.1, and `npm` is the global npm, which runs under that node. Node 22 prints TAP, so its totals are the `# tests 764` lines.
+- The Node 22 run used `PATH="%USERPROFILE%/AppData/Local/ms-playwright-go/1.50.1:$PATH"`. `node --version` under that PATH printed v22.13.1, and `npm` is the global npm, which runs under that node. Node 22 prints TAP, so its totals are the `# tests 764` lines.
 - No test makes a network call or opens a socket. The new HTTP and OAuth tests stub `Server.prototype.listen` or use a fake server.
 
 ## 2. node bin/ig.js --help (exit 0)

@@ -18,7 +18,7 @@ Scratch outputs are in D:\tmp\claude\D--Projects2-InstagramApi\17f4f42a-5ede-49b
 | 4 | `npm test` | v22.13.1 | 730 | 730 | 0 | 0 | 0 |
 | extra | `npm test` with 15 CPU-bound node processes running | v24.6.0 | 730 | 730 | 0 | 0 | 0 |
 
-- Run 4 put the Node 22.13.1 binary (C:\Users\fgghk\AppData\Local\ms-playwright-go\1.50.1\node.exe) first on PATH, so `npm` and the tests both ran on it. `node --version` printed v22.13.1 in that shell.
+- Run 4 put the Node 22.13.1 binary (%USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe) first on PATH, so `npm` and the tests both ran on it. `node --version` printed v22.13.1 in that shell.
 - Machine CPU before the runs: 13%, 19% and 23% for runs 1 to 3. With the burners running, CPU was 79%. No burner process was left running afterwards.
 - The extra run is supplementary evidence for the sidecar fix. It is not one of the four required runs.
 
@@ -91,7 +91,7 @@ See the Python section above. The earlier `-I` import (exit 1) and the variant w
 
 ### Step 4: Node 22
 
-Node 22.13.1 is a standalone runtime found at C:\Users\fgghk\AppData\Local\ms-playwright-go\1.50.1\node.exe (the runtime bundled with a Playwright install). No other Node 22 was found on the machine, and none was installed. It meets `>=22.12.0`. Node 22.12.0 exactly was not run. Final result: 730 of 730, 0 cancelled, exit 0.
+Node 22.13.1 is a standalone runtime found at %USERPROFILE%\AppData\Local\ms-playwright-go\1.50.1\node.exe (the runtime bundled with a Playwright install). No other Node 22 was found on the machine, and none was installed. It meets `>=22.12.0`. Node 22.12.0 exactly was not run. Final result: 730 of 730, 0 cancelled, exit 0.
 
 ### Extra check: bin-based MCP protocol check (ledger ruling e)
 
